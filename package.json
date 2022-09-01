@@ -1,0 +1,14 @@
+{
+  "name": "com.teamzero.application-profile",
+  "displayName": "TeamZero Application Profile",
+  "version": "1.0.0",
+  "unity": "2020.3",
+  "description": "TeamZero Application Profile",
+  "keywords": [
+    "TeamZero"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ivannikit/unity-application-profile.git#main"
+  }
+}
