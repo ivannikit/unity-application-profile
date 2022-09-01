@@ -1,0 +1,18 @@
+{
+    "name": "TeamZero.ApplicationProfile.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:862695a4984912a40beb25cfe8cc0f6b"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
