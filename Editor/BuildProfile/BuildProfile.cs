@@ -9,8 +9,7 @@ namespace TeamZero.AppProfileSystem.Editor
     public class BuildProfile
     {
         private readonly ApplicationProfile _appProfile;
-        private readonly string _version;
-        private readonly int _buildNumber;
+        private readonly VersionProfile _version;
 
         private readonly ISignProfile _sign;
 
@@ -23,21 +22,21 @@ namespace TeamZero.AppProfileSystem.Editor
 
 
         public static BuildProfile WithGooglePlayMarket(ApplicationProfile appProfile, bool buildAppBundle, 
-            string version, int buildNumber, string buildFolderPath, IEnumerable<string> scenes, string signJsonFilePath)
+            Version version, string buildFolderPath, IEnumerable<string> scenes, string signJsonFilePath)
         {
             BuildTarget buildTarget = appProfile.BuildTarget();
+            VersionProfile versionProfile = new AndroidVersionProfile(version);
             ISignProfile sign = AndroidSignProfile.FromJsonFile(buildTarget, signJsonFilePath);
             IResultPathProfile resultPath = new AndroidResultPathProfile(buildTarget, 
-                buildAppBundle, buildFolderPath, "GooglePlay", version, buildNumber);
-            
-            return new BuildProfile(appProfile, version, buildNumber, sign, resultPath, scenes);
+                buildAppBundle, buildFolderPath, "GooglePlay", version);
+
+            return new BuildProfile(appProfile, versionProfile, sign, resultPath, scenes);
         }
 
-        private BuildProfile(ApplicationProfile appProfile, string version, int buildNumber, ISignProfile sign, IResultPathProfile resultPath, IEnumerable<string> scenes)
+        private BuildProfile(ApplicationProfile appProfile, VersionProfile version, ISignProfile sign, IResultPathProfile resultPath, IEnumerable<string> scenes)
         {
             _appProfile = appProfile;
             _version = version;
-            _buildNumber = buildNumber;
             _sign = sign;
             _resultPath = resultPath;
             _scenes = scenes.ToArray();
@@ -49,29 +48,9 @@ namespace TeamZero.AppProfileSystem.Editor
 
         public void Apply()
         {
-            PlayerSettings.bundleVersion = _version;
-            ApplyBuildNumber();
+            _version.Apply();
             _sign.Apply();
             _resultPath.Apply();
-        }
-        
-        private void ApplyBuildNumber()
-        {
-            BuildTarget target = _appProfile.BuildTarget();
-            switch (target)
-            {
-                case UnityEditor.BuildTarget.Android: 
-                    PlayerSettings.Android.bundleVersionCode = _buildNumber; 
-                    break;
-                
-                case UnityEditor.BuildTarget.iOS: 
-                    PlayerSettings.iOS.buildNumber = _buildNumber.ToString(); 
-                    break;
-                
-                default:
-                    throw new Exception($"{target} not found");
-                    
-            }
         }
     }
 }

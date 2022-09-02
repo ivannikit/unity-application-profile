@@ -11,10 +11,11 @@ namespace TeamZero.AppProfileSystem.Editor
         private readonly bool _buildAppBundle;
         private readonly string _buildFolderPath;
         private readonly string _prefix;
-        private readonly string _version;
+        private readonly Version _version;
         private readonly int _buildNumber;
 
-        public AndroidResultPathProfile(BuildTarget buildTarget, bool buildAppBundle, string buildFolderPath, string prefix, string version, int buildNumber)
+        public AndroidResultPathProfile(BuildTarget buildTarget, bool buildAppBundle, string buildFolderPath, 
+            string prefix, Version version)
         {
             if (buildTarget != BuildTarget.Android)
                 throw new Exception($"build target must be {BuildTarget.Android}");
@@ -23,14 +24,13 @@ namespace TeamZero.AppProfileSystem.Editor
             _buildFolderPath = buildFolderPath;
             _prefix = prefix;
             _version = version;
-            _buildNumber = buildNumber;
         }
 
         public string BuildFolderPath() => _buildFolderPath;
         public string BuildPath()
         {
             string extension = _buildAppBundle ? "aab" : "apk";
-            return Path.Combine(_buildFolderPath, $"{_prefix}_{_version}({_buildNumber}).{extension}");
+            return Path.Combine(_buildFolderPath, $"{_prefix}-{_version}.{extension}");
         }
 
 
