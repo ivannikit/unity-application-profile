@@ -1,0 +1,42 @@
+#nullable enable
+
+using System;
+using System.IO;
+using UnityEditor;
+
+namespace TeamZero.AppProfileSystem.Editor
+{
+    public sealed class AndroidResultPathProfile : IResultPathProfile
+    {
+        private readonly bool _buildAppBundle;
+        private readonly string _buildFolderPath;
+        private readonly string _prefix;
+        private readonly string _version;
+        private readonly int _buildNumber;
+
+        public AndroidResultPathProfile(BuildTarget buildTarget, bool buildAppBundle, string buildFolderPath, string prefix, string version, int buildNumber)
+        {
+            if (buildTarget != BuildTarget.Android)
+                throw new Exception($"build target must be {BuildTarget.Android}");
+
+            _buildAppBundle = buildAppBundle;
+            _buildFolderPath = buildFolderPath;
+            _prefix = prefix;
+            _version = version;
+            _buildNumber = buildNumber;
+        }
+
+        public string BuildFolderPath() => _buildFolderPath;
+        public string BuildPath()
+        {
+            string extension = _buildAppBundle ? "aab" : "apk";
+            return Path.Combine(_buildFolderPath, $"{_prefix}_{_version}({_buildNumber}).{extension}");
+        }
+
+
+        public void Apply()
+        {
+            EditorUserBuildSettings.buildAppBundle = _buildAppBundle;
+        }
+    }
+}

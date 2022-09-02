@@ -14,21 +14,26 @@ namespace TeamZero.AppProfileSystem.Editor
 
         private readonly ISignProfile _sign;
 
-        public string ResultPath() => _resultPath;
-        private readonly string _resultPath;
+        public string BuildPath() => _resultPath.BuildPath();
+        public string BuildFolderPath() => _resultPath.BuildFolderPath();
+        private readonly IResultPathProfile _resultPath;
 
         public string[] Scenes() => _scenes;
         private readonly string[] _scenes;
 
 
-        public static BuildProfile WithGooglePlayMarket(ApplicationProfile appProfile, string version, int buildNumber, string resultPath, IEnumerable<string> scenes, string signJsonFilePath)
+        public static BuildProfile WithGooglePlayMarket(ApplicationProfile appProfile, bool buildAppBundle, 
+            string version, int buildNumber, string buildFolderPath, IEnumerable<string> scenes, string signJsonFilePath)
         {
             BuildTarget buildTarget = appProfile.BuildTarget();
             ISignProfile sign = AndroidSignProfile.FromJsonFile(buildTarget, signJsonFilePath);
+            IResultPathProfile resultPath = new AndroidResultPathProfile(buildTarget, 
+                buildAppBundle, buildFolderPath, "GooglePlay", version, buildNumber);
+            
             return new BuildProfile(appProfile, version, buildNumber, sign, resultPath, scenes);
         }
 
-        private BuildProfile(ApplicationProfile appProfile, string version, int buildNumber, ISignProfile sign, string resultPath, IEnumerable<string> scenes)
+        private BuildProfile(ApplicationProfile appProfile, string version, int buildNumber, ISignProfile sign, IResultPathProfile resultPath, IEnumerable<string> scenes)
         {
             _appProfile = appProfile;
             _version = version;
@@ -47,6 +52,7 @@ namespace TeamZero.AppProfileSystem.Editor
             PlayerSettings.bundleVersion = _version;
             ApplyBuildNumber();
             _sign.Apply();
+            _resultPath.Apply();
         }
         
         private void ApplyBuildNumber()

@@ -13,8 +13,7 @@ namespace TeamZero.AppBuildSystem.Editor
         private readonly BuildProfile _profile;
         private readonly IBuildReport _report;
 
-        public static Builder Create(BuildProfile profile, IBuildReport report) => 
-            new(profile, report);
+        public static Builder Create(BuildProfile profile, IBuildReport report) => new(profile, report);
         
         private Builder(BuildProfile profile, IBuildReport report)
         {
@@ -26,27 +25,46 @@ namespace TeamZero.AppBuildSystem.Editor
         {
             _profile.Apply();
             TryCreateResultDirectory();
-            
+            bool succeeded = UnityProcessBuild(_profile);
+            ReportResult(succeeded);
+            TryShowSucceededDialog();
+        }
+
+        private static bool UnityProcessBuild(BuildProfile profile)
+        {
             BuildPlayerOptions buildOptions;
             try
             {
                 buildOptions = new BuildPlayerOptions
                 {
-                    scenes = _profile.Scenes(),
-                    locationPathName = _profile.ResultPath(),
-                    target = _profile.BuildTarget(),
-                    options = _profile.BuildOptions()
+                    scenes = profile.Scenes(),
+                    locationPathName = profile.BuildPath(),
+                    target = profile.BuildTarget(),
+                    options = profile.BuildOptions()
                 };
             }
             catch (Exception e)
             {
                 Debug.LogException(e);
-                return;
+                return false;
             }
 
             BuildReport report = BuildPipeline.BuildPlayer(buildOptions);
             bool succeeded = report.summary.result == BuildResult.Succeeded;
-            ReportResult(succeeded);
+            
+            return succeeded;
+        }
+        
+        private void TryShowSucceededDialog()
+        {
+            string path = _profile.BuildPath();
+            if (Directory.Exists(path) || File.Exists(path))
+            {
+                if (!EditorUtility.DisplayDialog("Build result", "Build succeeded!", "Close", "Open folder"))
+                    EditorUtility.RevealInFinder(path);
+            }
+            else
+                EditorUtility.DisplayDialog("Build result", "Build succeeded!", "Close");
         }
 
         private void ReportResult(bool succeeded)
@@ -57,12 +75,8 @@ namespace TeamZero.AppBuildSystem.Editor
 
         private void TryCreateResultDirectory()
         {
-            string path = _profile.ResultPath();
-            string? directory = Path.GetDirectoryName(path);
-            if(directory == null)
-                throw new NullReferenceException();
-            
-            Directory.CreateDirectory(directory);
+            string path = _profile.BuildFolderPath();
+            Directory.CreateDirectory(path);
         }
     }
 }

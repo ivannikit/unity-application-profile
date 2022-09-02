@@ -1,7 +1,9 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
+using UnityEngine;
 
 namespace TeamZero.AppProfileSystem.Editor
 {
@@ -14,18 +16,34 @@ namespace TeamZero.AppProfileSystem.Editor
 
         public static AndroidSignProfile FromJsonFile(BuildTarget buildTarget, string filePath)
         {
-            LoadSignFromJsonFile(out string keystoreName, out string keystorePass, 
+            LoadSignFromJsonFile(filePath, out string keystoreName, out string keystorePass, 
                 out string keyaliasName, out string keyaliasPass);
 
             return Create(buildTarget, keystoreName, keystorePass, keyaliasName, keyaliasPass);
         }
         
-        private static void LoadSignFromJsonFile(out string keystoreName, out string keystorePass, 
+        private static void LoadSignFromJsonFile(string filePath, out string keystoreName, out string keystorePass, 
             out string keyaliasName, out string keyaliasPass)
         {
-            //string json = 
-            //var dict = Json.Deserialize(json) as Dictionary<string,object>;
-            throw new NotImplementedException();
+            string json = File.ReadAllText(filePath); 
+            var data = Core.MiniJSON.Json.Deserialize(json) as Dictionary<string, object>;
+            if (data == null)
+                throw new NullReferenceException(nameof(data));
+            
+            keystoreName = GetValue(data, "keystoreName");
+            keystorePass = GetValue(data, "keystorePass");
+            keyaliasName = GetValue(data, "keyaliasName");
+            keyaliasPass = GetValue(data, "keyaliasPass");
+            
+            Debug.Log("LoadSignJson result: {keystoreName} {keystorePass} {keyaliasName} {keyaliasPass}");
+        }
+
+        private static string GetValue(Dictionary<string, object> data, string key)
+        {
+            string? value = (string)data[key];
+            if(value == null)
+                throw new Exception($"key {key} not found");
+            return value;
         }
         
         public static AndroidSignProfile Create(BuildTarget buildTarget, string keystoreName, string keystorePass, 
