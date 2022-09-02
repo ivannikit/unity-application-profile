@@ -2,7 +2,8 @@
     "name": "TeamZero.ApplicationProfile.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:862695a4984912a40beb25cfe8cc0f6b"
+        "GUID:862695a4984912a40beb25cfe8cc0f6b",
+        "GUID:4f4fdddf5b948314fa3aef8a29f31242"
     ],
     "includePlatforms": [
         "Editor"
