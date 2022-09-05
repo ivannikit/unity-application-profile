@@ -1,4 +1,6 @@
-namespace TeamZero.AppBuildSystem.Editor
+#nullable enable
+
+namespace TeamZero.ApplicationProfile.Building
 {
     public interface IBuildReport
     {

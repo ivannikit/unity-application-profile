@@ -2,9 +2,9 @@
 using System;
 using UnityEditor;
 
-namespace TeamZero.AppProfileSystem.Editor
+namespace TeamZero.ApplicationProfile
 {
-    public class ApplicationProfile
+    public class AppProfile
     {
         public BuildTarget BuildTarget() => _buildTarget;
         private readonly BuildTarget _buildTarget;
@@ -12,9 +12,9 @@ namespace TeamZero.AppProfileSystem.Editor
         public string[] Scenes() => _scenes;
         private readonly string[] _scenes;
 
-        public static ApplicationProfile Create(BuildTarget buildTarget, string[] scenes) => new(buildTarget, scenes);
+        public static AppProfile Create(BuildTarget buildTarget, string[] scenes) => new(buildTarget, scenes);
 
-        private ApplicationProfile(BuildTarget buildTarget, string[] scenes)
+        private AppProfile(BuildTarget buildTarget, string[] scenes)
         {
             _buildTarget = buildTarget;
             _scenes = scenes;

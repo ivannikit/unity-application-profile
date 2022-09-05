@@ -1,24 +1,24 @@
-﻿using TeamZero.AppBuildSystem.Editor;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
+using TeamZero.ApplicationProfile.Building;
 
-namespace TeamZero.AppProfileSystem.Editor.GUI
+namespace TeamZero.ApplicationProfile.GUI
 {
     public sealed class AppProfileWindow : EditorWindow
     {
-        private ApplicationProfile _appProfile;
+        private AppProfile _appProfile;
         private BuildProfile _buildProfile;
         
         private readonly string[] _toolbarNames = { "Profile", "Builder" };
         private int _toolbarIndex = 0;
 
-        public static void Show(string title, ApplicationProfile appProfile, BuildProfile buildProfile)
+        public static void Show(string title, AppProfile appProfile, BuildProfile buildProfile)
         {
             AppProfileWindow window = GetWindow<AppProfileWindow>();
             window.Init(title, appProfile, buildProfile);
         }
 
-        private void Init(string title, ApplicationProfile appProfile, BuildProfile buildProfile)
+        private void Init(string title, AppProfile appProfile, BuildProfile buildProfile)
         {
             titleContent = new GUIContent(title);
             _appProfile = appProfile;

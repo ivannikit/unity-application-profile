@@ -1,6 +1,7 @@
+#nullable enable
 using UnityEngine;
 
-namespace TeamZero.AppBuildSystem.Editor
+namespace TeamZero.ApplicationProfile.Building
 {
     public class UnityLogReport : IBuildReport
     {

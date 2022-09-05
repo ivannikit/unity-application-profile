@@ -1,7 +1,6 @@
 #nullable enable
-using UnityEditor;
 
-namespace TeamZero.AppProfileSystem.Editor
+namespace TeamZero.ApplicationProfile
 {
     public readonly struct Version
     {

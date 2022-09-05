@@ -5,9 +5,9 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace TeamZero.AppProfileSystem.Editor
+namespace TeamZero.ApplicationProfile.Building
 {
-    public sealed class AndroidSignProfile : ISignProfile
+    internal sealed class AndroidSignProfile : ISignProfile
     {
         private readonly string _keystoreName;
         private readonly string _keystorePass;

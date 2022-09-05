@@ -1,8 +1,8 @@
 #nullable enable
 
-namespace TeamZero.AppProfileSystem.Editor
+namespace TeamZero.ApplicationProfile.Building
 {
-    public interface ISignProfile
+    internal interface ISignProfile
     {
         void Apply();
     }

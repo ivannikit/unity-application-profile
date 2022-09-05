@@ -2,7 +2,7 @@
 
 using UnityEditor;
 
-namespace TeamZero.AppProfileSystem.Editor
+namespace TeamZero.ApplicationProfile.Building
 {
     public abstract class VersionProfile
     {

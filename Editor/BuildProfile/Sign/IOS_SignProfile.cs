@@ -2,9 +2,9 @@
 using System;
 using UnityEditor;
 
-namespace TeamZero.AppProfileSystem.Editor
+namespace TeamZero.ApplicationProfile.Building
 {
-    public sealed class IOS_SignProfile : ISignProfile
+    internal sealed class IOS_SignProfile : ISignProfile
     {
         public static IOS_SignProfile Create(BuildTarget buildTarget)
         {

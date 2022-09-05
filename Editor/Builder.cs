@@ -4,9 +4,8 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
-using TeamZero.AppProfileSystem.Editor;
 
-namespace TeamZero.AppBuildSystem.Editor
+namespace TeamZero.ApplicationProfile.Building
 {
     public class Builder
     {

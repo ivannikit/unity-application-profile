@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using UnityEditor;
 
-namespace TeamZero.AppProfileSystem.Editor
+namespace TeamZero.ApplicationProfile.Building
 {
     public sealed class AndroidResultPathProfile : IResultPathProfile
     {

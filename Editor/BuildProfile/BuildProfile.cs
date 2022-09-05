@@ -2,12 +2,13 @@
 using System;
 using System.IO;
 using UnityEditor;
+using TeamZero.ApplicationProfile.Building;
 
-namespace TeamZero.AppProfileSystem.Editor
+namespace TeamZero.ApplicationProfile
 {
     public class BuildProfile
     {
-        private readonly ApplicationProfile _appProfile;
+        private readonly AppProfile _appProfile;
         private readonly VersionProfile _version;
 
         private readonly ISignProfile _sign;
@@ -19,7 +20,7 @@ namespace TeamZero.AppProfileSystem.Editor
         public string[] Scenes() => _appProfile.Scenes();
 
         
-        public static BuildProfile ForGooglePlayMarket(ApplicationProfile appProfile, Version version, bool buildAppBundle)
+        public static BuildProfile ForGooglePlayMarket(AppProfile appProfile, Version version, bool buildAppBundle)
         {
             string projectPath = ProjectPath();
             string buildFolderPath = Path.Combine(projectPath, "Builds");
@@ -34,7 +35,7 @@ namespace TeamZero.AppProfileSystem.Editor
             return new BuildProfile(appProfile, versionProfile, sign, resultPath);
         }
         
-        public static BuildProfile ForIOS(ApplicationProfile appProfile, Version version)
+        public static BuildProfile ForIOS(AppProfile appProfile, Version version)
         {
             string projectPath = ProjectPath();
             string buildFolderPath = Path.Combine(projectPath, "Builds");
@@ -58,7 +59,7 @@ namespace TeamZero.AppProfileSystem.Editor
         }
 
         
-        private BuildProfile(ApplicationProfile appProfile, VersionProfile version, ISignProfile sign, IResultPathProfile resultPath)
+        private BuildProfile(AppProfile appProfile, VersionProfile version, ISignProfile sign, IResultPathProfile resultPath)
         {
             _appProfile = appProfile;
             _version = version;

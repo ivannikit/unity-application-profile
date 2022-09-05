@@ -1,6 +1,6 @@
 #nullable enable
 
-namespace TeamZero.AppProfileSystem.Editor
+namespace TeamZero.ApplicationProfile.Building
 {
     public interface IResultPathProfile
     {

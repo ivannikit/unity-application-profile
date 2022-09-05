@@ -1,8 +1,7 @@
 #nullable enable
-
 using UnityEditor;
 
-namespace TeamZero.AppProfileSystem.Editor
+namespace TeamZero.ApplicationProfile.Building
 {
     public sealed class IOSVersionProfile : VersionProfile
     {
