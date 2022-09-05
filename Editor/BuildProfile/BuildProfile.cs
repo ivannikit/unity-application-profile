@@ -24,13 +24,26 @@ namespace TeamZero.AppProfileSystem.Editor
             string projectPath = ProjectPath();
             string buildFolderPath = Path.Combine(projectPath, "Builds");
             string signJsonFilePath = Path.Combine(buildFolderPath, "GooglePlaySign.json");
-
             BuildTarget buildTarget = appProfile.BuildTarget();
+            
             VersionProfile versionProfile = new AndroidVersionProfile(version);
             ISignProfile sign = AndroidSignProfile.FromJsonFile(buildTarget, signJsonFilePath);
             IResultPathProfile resultPath = new AndroidResultPathProfile(buildTarget, 
                 buildAppBundle, buildFolderPath, "GooglePlay", version);
 
+            return new BuildProfile(appProfile, versionProfile, sign, resultPath);
+        }
+        
+        public static BuildProfile ForIOS(ApplicationProfile appProfile, Version version)
+        {
+            string projectPath = ProjectPath();
+            string buildFolderPath = Path.Combine(projectPath, "Builds");
+            BuildTarget buildTarget = appProfile.BuildTarget();
+            
+            VersionProfile versionProfile = new IOSVersionProfile(version);
+            ISignProfile sign = IOS_SignProfile.Create(buildTarget);
+            IResultPathProfile resultPath = new IOSResultPathProfile(buildTarget, buildFolderPath);
+            
             return new BuildProfile(appProfile, versionProfile, sign, resultPath);
         }
         

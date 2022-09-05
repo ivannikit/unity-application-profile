@@ -1,7 +1,6 @@
 #nullable enable
 using System;
 using UnityEditor;
-using UnityEngine;
 
 namespace TeamZero.AppProfileSystem.Editor
 {
@@ -27,6 +26,9 @@ namespace TeamZero.AppProfileSystem.Editor
             {
                 case UnityEditor.BuildTarget.Android: 
                     return BuildProfile.ForGooglePlayMarket(this, version, false);
+                
+                case UnityEditor.BuildTarget.iOS:
+                    return BuildProfile.ForIOS(this, version);
                 
                 default: 
                     throw new NotImplementedException($"BuildTarget {_buildTarget} not found");

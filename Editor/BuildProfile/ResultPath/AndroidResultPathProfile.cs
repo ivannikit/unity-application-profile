@@ -11,7 +11,6 @@ namespace TeamZero.AppProfileSystem.Editor
         private readonly string _buildFolderPath;
         private readonly string _prefix;
         private readonly Version _version;
-        private readonly int _buildNumber;
 
         public AndroidResultPathProfile(BuildTarget buildTarget, bool buildAppBundle, string buildFolderPath, 
             string prefix, Version version)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TeamZero.AppProfileSystem.Editor.GUI
 {
-    public class AppProfileWindow : EditorWindow
+    public sealed class AppProfileWindow : EditorWindow
     {
         private ApplicationProfile _appProfile;
         private BuildProfile _buildProfile;
@@ -25,7 +25,7 @@ namespace TeamZero.AppProfileSystem.Editor.GUI
             _buildProfile = buildProfile;
         }
 
-        protected virtual void OnGUI()
+        private void OnGUI()
         {
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling);
             
