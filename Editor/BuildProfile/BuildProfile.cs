@@ -20,35 +20,33 @@ namespace TeamZero.ApplicationProfile
         public string[] Scenes() => _appProfile.Scenes();
 
         
-        public static BuildProfile ForGooglePlayMarket(AppProfile appProfile, Version version, bool buildAppBundle)
+        public static BuildProfile ForGooglePlayMarket(AppProfile appProfile, Version version, 
+            bool buildAppBundle, ISignProfile sign)
         {
+            BuildTarget buildTarget = appProfile.BuildTarget();
             string projectPath = ProjectPath();
             string buildFolderPath = Path.Combine(projectPath, "Builds");
-            string signJsonFilePath = Path.Combine(buildFolderPath, "GooglePlaySign.json");
-            BuildTarget buildTarget = appProfile.BuildTarget();
             
             VersionProfile versionProfile = new AndroidVersionProfile(version);
-            ISignProfile sign = AndroidSignProfile.FromJsonFile(buildTarget, signJsonFilePath);
             IResultPathProfile resultPath = new AndroidResultPathProfile(buildTarget, 
                 buildAppBundle, buildFolderPath, "GooglePlay", version);
 
             return new BuildProfile(appProfile, versionProfile, sign, resultPath);
         }
         
-        public static BuildProfile ForIOS(AppProfile appProfile, Version version)
+        public static BuildProfile ForIOS(AppProfile appProfile, Version version, ISignProfile sign)
         {
             string projectPath = ProjectPath();
             string buildFolderPath = Path.Combine(projectPath, "Builds");
             BuildTarget buildTarget = appProfile.BuildTarget();
             
             VersionProfile versionProfile = new IOSVersionProfile(version);
-            ISignProfile sign = IOS_SignProfile.Create(buildTarget);
             IResultPathProfile resultPath = new IOSResultPathProfile(buildTarget, buildFolderPath);
             
             return new BuildProfile(appProfile, versionProfile, sign, resultPath);
         }
         
-        private static string ProjectPath()
+        public static string ProjectPath()
         {
             DirectoryInfo? projectDirectory = new DirectoryInfo(UnityEngine.Application.dataPath);
             projectDirectory = projectDirectory.Parent;
@@ -57,7 +55,6 @@ namespace TeamZero.ApplicationProfile
 
             return projectDirectory.FullName;
         }
-
         
         private BuildProfile(AppProfile appProfile, VersionProfile version, ISignProfile sign, IResultPathProfile resultPath)
         {

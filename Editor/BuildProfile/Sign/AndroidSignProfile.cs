@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TeamZero.ApplicationProfile.Building
 {
-    internal sealed class AndroidSignProfile : ISignProfile
+    public sealed class AndroidSignProfile : ISignProfile
     {
         private readonly string _keystoreName;
         private readonly string _keystorePass;

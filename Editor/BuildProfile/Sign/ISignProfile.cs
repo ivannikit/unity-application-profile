@@ -2,7 +2,7 @@
 
 namespace TeamZero.ApplicationProfile.Building
 {
-    internal interface ISignProfile
+    public interface ISignProfile
     {
         void Apply();
     }

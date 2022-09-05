@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using TeamZero.ApplicationProfile.Building;
 using UnityEditor;
 
 namespace TeamZero.ApplicationProfile
@@ -20,15 +21,15 @@ namespace TeamZero.ApplicationProfile
             _scenes = scenes;
         }
 
-        public BuildProfile CreateBuildProfile(Version version)
+        public BuildProfile CreateBuildProfile(Version version, ISignProfile sign)
         {
             switch (_buildTarget)
             {
                 case UnityEditor.BuildTarget.Android: 
-                    return BuildProfile.ForGooglePlayMarket(this, version, false);
+                    return BuildProfile.ForGooglePlayMarket(this, version, false, sign);
                 
                 case UnityEditor.BuildTarget.iOS:
-                    return BuildProfile.ForIOS(this, version);
+                    return BuildProfile.ForIOS(this, version, sign);
                 
                 default: 
                     throw new NotImplementedException($"BuildTarget {_buildTarget} not found");
