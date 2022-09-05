@@ -1,5 +1,4 @@
 #nullable enable
-
 using System;
 using System.IO;
 using UnityEditor;
@@ -8,7 +7,7 @@ namespace TeamZero.AppProfileSystem.Editor
 {
     public sealed class AndroidResultPathProfile : IResultPathProfile
     {
-        private readonly bool _buildAppBundle;
+        private bool _buildAppBundle;
         private readonly string _buildFolderPath;
         private readonly string _prefix;
         private readonly Version _version;
@@ -37,6 +36,11 @@ namespace TeamZero.AppProfileSystem.Editor
         public void Apply()
         {
             EditorUserBuildSettings.buildAppBundle = _buildAppBundle;
+        }
+
+        public void DrawGUI()
+        {
+            _buildAppBundle = EditorGUILayout.Toggle("Build App Bundle", _buildAppBundle);
         }
     }
 }

@@ -8,5 +8,6 @@ namespace TeamZero.AppProfileSystem.Editor
         string BuildPath();
 
         void Apply();
+        void DrawGUI();
     }
 }

@@ -15,6 +15,7 @@ namespace TeamZero.AppBuildSystem.Editor
 
         public static Builder Create(BuildProfile profile, IBuildReport report) => new(profile, report);
         
+        
         private Builder(BuildProfile profile, IBuildReport report)
         {
             _profile = profile;
