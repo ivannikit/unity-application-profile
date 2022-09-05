@@ -18,20 +18,21 @@ namespace TeamZero.ApplicationProfile.GUI
             window.Init(title, appProfile, buildProfile);
         }
 
-        private void Init(string title, AppProfile appProfile, BuildProfile buildProfile)
+        private void Init(string titleMessage, AppProfile appProfile, BuildProfile buildProfile)
         {
-            titleContent = new GUIContent(title);
+            titleContent = new GUIContent(titleMessage);
             _appProfile = appProfile;
             _buildProfile = buildProfile;
         }
 
         private void OnGUI()
         {
-            if(EditorApplication.isPlaying 
-               || EditorApplication.isPlayingOrWillChangePlaymode 
-               || EditorApplication.isCompiling) 
-                    Close();
-    
+            if (EditorApplication.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling)
+            {
+                Close();
+                return;
+            }
+
             GUILayout.BeginHorizontal(EditorStyles.toolbar);
             _toolbarIndex = GUILayout.Toolbar(_toolbarIndex, _toolbarNames);
             GUILayout.EndHorizontal();
@@ -55,10 +56,10 @@ namespace TeamZero.ApplicationProfile.GUI
             EditorGUILayout.Space();
             _appProfile.DrawGUI();
             GUILayout.FlexibleSpace();
-            
+
+            if(GUILayout.Button("Apply")) Apply();
             EditorGUILayout.Space();
-            if(GUILayout.Button("Apply"))
-                Apply();
+            
             GUILayout.EndVertical();
         }
 
@@ -75,8 +76,7 @@ namespace TeamZero.ApplicationProfile.GUI
             _buildProfile.DrawGUI();
             
             GUILayout.FlexibleSpace();
-            if(GUILayout.Button("Build"))
-                Build();
+            if(GUILayout.Button("Build")) Build();
             EditorGUILayout.Space();
             
             GUILayout.EndVertical();
