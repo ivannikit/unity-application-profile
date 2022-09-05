@@ -27,8 +27,11 @@ namespace TeamZero.AppProfileSystem.Editor.GUI
 
         private void OnGUI()
         {
-            EditorGUI.BeginDisabledGroup(EditorApplication.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling);
-            
+            if(EditorApplication.isPlaying 
+               || EditorApplication.isPlayingOrWillChangePlaymode 
+               || EditorApplication.isCompiling) 
+                    Close();
+    
             GUILayout.BeginHorizontal(EditorStyles.toolbar);
             _toolbarIndex = GUILayout.Toolbar(_toolbarIndex, _toolbarNames);
             GUILayout.EndHorizontal();
@@ -51,8 +54,17 @@ namespace TeamZero.AppProfileSystem.Editor.GUI
             
             EditorGUILayout.Space();
             _appProfile.DrawGUI();
+            GUILayout.FlexibleSpace();
             
+            EditorGUILayout.Space();
+            if(GUILayout.Button("Apply"))
+                Apply();
             GUILayout.EndVertical();
+        }
+
+        private void Apply()
+        {
+            _appProfile.Apply();
         }
 
         private void DrawBuilder()
@@ -65,6 +77,7 @@ namespace TeamZero.AppProfileSystem.Editor.GUI
             GUILayout.FlexibleSpace();
             if(GUILayout.Button("Build"))
                 Build();
+            EditorGUILayout.Space();
             
             GUILayout.EndVertical();
         }

@@ -39,5 +39,10 @@ namespace TeamZero.AppProfileSystem.Editor
         {
             EditorGUILayout.LabelField($"BuildTarget: {_buildTarget}");
         }
+
+        public void Apply()
+        {
+            UnityEngine.Debug.Log("TODO ApplicationProfile Apply");
+        }
     }
 }
