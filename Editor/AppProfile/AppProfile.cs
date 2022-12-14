@@ -20,13 +20,19 @@ namespace TeamZero.ApplicationProfile
             _buildTarget = buildTarget;
             _scenes = scenes;
         }
+        
+        public BuildProfile CreateBuildProfile(Version version, BuildNameSettings nameSettings)
+        {
+            ISignProfile sign = EmptySignProfile.Create();
+            return CreateBuildProfile(version, sign, nameSettings);
+        }
 
-        public BuildProfile CreateBuildProfile(Version version, ISignProfile sign)
+        public BuildProfile CreateBuildProfile(Version version, ISignProfile sign, BuildNameSettings nameSettings)
         {
             switch (_buildTarget)
             {
                 case UnityEditor.BuildTarget.Android: 
-                    return BuildProfile.ForGooglePlayMarket(this, version, false, sign);
+                    return BuildProfile.ForGooglePlayMarket(this, version, false, sign, nameSettings);
                 
                 case UnityEditor.BuildTarget.iOS:
                     return BuildProfile.ForIOS(this, version, sign);

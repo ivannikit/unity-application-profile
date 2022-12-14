@@ -1,14 +1,15 @@
 #nullable enable
 
+using System;
 using UnityEditor;
 
 namespace TeamZero.ApplicationProfile.Building
 {
     public abstract class VersionProfile
     {
-        protected Version _version;
+        protected readonly Version _version;
 
-        public VersionProfile(Version version)
+        protected VersionProfile(Version version)
         {
             _version = version;
         }
@@ -27,13 +28,11 @@ namespace TeamZero.ApplicationProfile.Building
 
             int buildNumber = _version.BuildNumber();
             int nextBuildNumber = EditorGUILayout.IntField("Build Number", buildNumber);
-            if (nextBuildNumber < 0)
-                nextBuildNumber = buildNumber;
-            
+            nextBuildNumber = Math.Max(0, nextBuildNumber);
             dirty |= nextBuildNumber != buildNumber;
 
             if(dirty)
-                _version = new Version(nextMainVersion, nextBuildNumber);
+                _version.Set(nextMainVersion, nextBuildNumber);
         }
     }
 }

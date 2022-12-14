@@ -21,15 +21,16 @@ namespace TeamZero.ApplicationProfile
 
         
         public static BuildProfile ForGooglePlayMarket(AppProfile appProfile, Version version, 
-            bool buildAppBundle, ISignProfile sign)
+            bool buildAppBundle, ISignProfile sign, BuildNameSettings nameSettings)
         {
             BuildTarget buildTarget = appProfile.BuildTarget();
             string projectPath = ProjectPath();
             string buildFolderPath = Path.Combine(projectPath, "Builds");
             
-            VersionProfile versionProfile = new AndroidVersionProfile(version);
+            VersionProfile versionProfile = AndroidVersionProfile.Create(version);
+
             IResultPathProfile resultPath = new AndroidResultPathProfile(buildTarget, 
-                buildAppBundle, buildFolderPath, "GooglePlay", version);
+                buildAppBundle, buildFolderPath, nameSettings, version);
 
             return new BuildProfile(appProfile, versionProfile, sign, resultPath);
         }
