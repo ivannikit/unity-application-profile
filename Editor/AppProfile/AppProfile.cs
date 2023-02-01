@@ -1,5 +1,7 @@
 #nullable enable
+
 using System;
+using System.Collections.Generic;
 using TeamZero.ApplicationProfile.Building;
 using UnityEditor;
 
@@ -13,12 +15,16 @@ namespace TeamZero.ApplicationProfile
         public string[] Scenes() => _scenes;
         private readonly string[] _scenes;
 
-        public static AppProfile Create(BuildTarget buildTarget, string[] scenes) => new(buildTarget, scenes);
+        private readonly IProfileSettings _settings;
 
-        private AppProfile(BuildTarget buildTarget, string[] scenes)
+        public static AppProfile Create(BuildTarget buildTarget, string[] scenes, IProfileSettings settings) => 
+            new(buildTarget, scenes, settings);
+
+        private AppProfile(BuildTarget buildTarget, string[] scenes, IProfileSettings settings)
         {
             _buildTarget = buildTarget;
             _scenes = scenes;
+            _settings = settings;
         }
         
         public BuildProfile CreateBuildProfile(Version version, BuildNameSettings nameSettings)
@@ -38,18 +44,21 @@ namespace TeamZero.ApplicationProfile
                     return BuildProfile.ForIOS(this, version, sign);
                 
                 default: 
-                    throw new NotImplementedException($"BuildTarget {_buildTarget} not found");
+                    throw new NotImplementedException($"{typeof(BuildTarget)} {_buildTarget} not found");
             }
         }
 
         public void DrawGUI()
         {
             EditorGUILayout.LabelField($"BuildTarget: {_buildTarget}");
+            _settings.DrawGUI();
         }
 
         public void Apply()
         {
-            UnityEngine.Debug.Log("TODO ApplicationProfile Apply");
+            _settings.Setup();
         }
+
+        public bool IsSetup() => _settings.IsSetup();
     }
 }

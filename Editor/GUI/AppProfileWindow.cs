@@ -42,8 +42,6 @@ namespace TeamZero.ApplicationProfile.GUI
             else
                 DrawBuilder();
 
-            EditorGUI.EndDisabledGroup();
-            
             // Repaint after Undo/Redo
             if (Event.current.type == EventType.ValidateCommand && Event.current.commandName == "UndoRedoPerformed")
                 Repaint();
@@ -70,7 +68,9 @@ namespace TeamZero.ApplicationProfile.GUI
 
         private void DrawBuilder()
         {
-            GUILayout.BeginVertical();
+            bool disabled = _appProfile.IsSetup() == false;
+            EditorGUI.BeginDisabledGroup(disabled);
+            EditorGUILayout.BeginVertical();
             
             EditorGUILayout.Space();
             _buildProfile.DrawGUI();
@@ -79,7 +79,8 @@ namespace TeamZero.ApplicationProfile.GUI
             if(GUILayout.Button("Build")) Build();
             EditorGUILayout.Space();
             
-            GUILayout.EndVertical();
+            EditorGUILayout.EndVertical();
+            EditorGUI.EndDisabledGroup();
         }
 
         private void Build()
