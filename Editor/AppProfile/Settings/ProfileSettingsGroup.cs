@@ -1,6 +1,7 @@
 #nullable enable
 
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TeamZero.ApplicationProfile.Settings
 {
@@ -32,8 +33,15 @@ namespace TeamZero.ApplicationProfile.Settings
 
         public void DrawGUI()
         {
+            Color defaultColor = UnityEngine.GUI.contentColor;
             foreach (IProfileSettings item in _items)
+            {
+                Color itemColor = item.IsSetup() ? defaultColor : Color.red;
+                UnityEngine.GUI.contentColor = itemColor;
                 item.DrawGUI();
+            }
+
+            UnityEngine.GUI.contentColor = defaultColor;
         }
     }
 }
