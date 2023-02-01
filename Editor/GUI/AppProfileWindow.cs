@@ -14,7 +14,7 @@ namespace TeamZero.ApplicationProfile.GUI
 
         public static void Show(string title, AppProfile appProfile, BuildProfile buildProfile)
         {
-            AppProfileWindow window = GetWindow<AppProfileWindow>();
+            AppProfileWindow window = GetWindow<AppProfileWindow>(true);
             window.Init(title, appProfile, buildProfile);
         }
 
