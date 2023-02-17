@@ -55,8 +55,13 @@ namespace TeamZero.ApplicationProfile.GUI
             _appProfile.DrawGUI();
             GUILayout.FlexibleSpace();
 
+            bool disabled = _appProfile.IsSetup();
+            EditorGUI.BeginDisabledGroup(disabled);
+            
             if(GUILayout.Button("Apply")) Apply();
             EditorGUILayout.Space();
+            
+            EditorGUI.EndDisabledGroup();
             
             GUILayout.EndVertical();
         }
@@ -76,7 +81,11 @@ namespace TeamZero.ApplicationProfile.GUI
             _buildProfile.DrawGUI();
             
             GUILayout.FlexibleSpace();
-            if(GUILayout.Button("Build")) Build();
+            if (GUILayout.Button("Build"))
+            {
+                Close();
+                Build();
+            }
             EditorGUILayout.Space();
             
             EditorGUILayout.EndVertical();
