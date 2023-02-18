@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,8 +35,6 @@ namespace TeamZero.ApplicationProfile.Building
             keystorePass = GetValue(data, "keystorePass");
             keyaliasName = GetValue(data, "keyaliasName");
             keyaliasPass = GetValue(data, "keyaliasPass");
-            
-            Debug.Log("LoadSignJson result: {keystoreName} {keystorePass} {keyaliasName} {keyaliasPass}");
         }
 
         private static string GetValue(Dictionary<string, object> data, string key)
@@ -69,7 +68,18 @@ namespace TeamZero.ApplicationProfile.Building
             PlayerSettings.Android.keystorePass = _keystorePass;
             PlayerSettings.Android.keyaliasName = _keyaliasName;
             PlayerSettings.Android.keyaliasPass = _keyaliasPass;
+        }
 
+        
+        [MenuItem("Project/Build Utils/Log android keystore info")]
+        private static void LogKeystoreInfo()
+        {
+            StringBuilder log = new();
+            log.AppendLine($"keystoreName: {PlayerSettings.Android.keystoreName}");
+            log.AppendLine($"keystorePass: {PlayerSettings.Android.keystorePass}");
+            log.AppendLine($"keyaliasName: {PlayerSettings.Android.keyaliasName}");
+            log.AppendLine($"keyaliasPass: {PlayerSettings.Android.keyaliasPass}");
+            Debug.Log(log.ToString());
         }
     }
 }

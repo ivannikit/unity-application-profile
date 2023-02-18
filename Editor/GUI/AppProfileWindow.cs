@@ -8,19 +8,21 @@ namespace TeamZero.ApplicationProfile.GUI
     {
         private AppProfile _appProfile;
         private BuildProfile _buildProfile;
+        private string _buildName;
         
         private readonly string[] _toolbarNames = { "Profile", "Builder" };
         private int _toolbarIndex = 0;
 
-        public static void Show(string title, AppProfile appProfile, BuildProfile buildProfile)
+        public static void Show(string buildName, AppProfile appProfile, BuildProfile buildProfile)
         {
             AppProfileWindow window = GetWindow<AppProfileWindow>(true);
-            window.Init(title, appProfile, buildProfile);
+            window.Init(buildName, appProfile, buildProfile);
         }
 
-        private void Init(string titleMessage, AppProfile appProfile, BuildProfile buildProfile)
+        private void Init(string buildName, AppProfile appProfile, BuildProfile buildProfile)
         {
-            titleContent = new GUIContent(titleMessage);
+            _buildName = buildName;
+            titleContent = new GUIContent(buildName);
             _appProfile = appProfile;
             _buildProfile = buildProfile;
         }
@@ -96,7 +98,7 @@ namespace TeamZero.ApplicationProfile.GUI
         {
             IBuildReport report = UnityLogReport.Create();
             Builder builder = Builder.Create(_buildProfile, report);
-            builder.Run();
+            builder.Run(_buildName);
         }
     }
 }

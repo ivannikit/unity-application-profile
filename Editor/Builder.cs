@@ -21,13 +21,13 @@ namespace TeamZero.ApplicationProfile.Building
             _report = report;
         }
 
-        public void Run()
+        public void Run(string buildName)
         {
             _profile.Apply();
             TryCreateResultDirectory();
             bool succeeded = UnityProcessBuild(_profile);
-            ReportResult(succeeded);
-            TryShowSucceededDialog();
+            ReportResult(buildName, succeeded);
+            TryShowSucceededDialog(buildName);
         }
 
         private static bool UnityProcessBuild(BuildProfile profile)
@@ -55,7 +55,7 @@ namespace TeamZero.ApplicationProfile.Building
             return succeeded;
         }
         
-        private void TryShowSucceededDialog()
+        private void TryShowSucceededDialog(string buildName)
         {
             string path = _profile.BuildPath();
             if (Directory.Exists(path) || File.Exists(path))
@@ -64,13 +64,13 @@ namespace TeamZero.ApplicationProfile.Building
                     EditorUtility.RevealInFinder(path);
             }
             else
-                EditorUtility.DisplayDialog("Build result", "Build succeeded!", "Close");
+                EditorUtility.DisplayDialog($"[{buildName}] Build result", "Build succeeded!", "Close");
         }
 
-        private void ReportResult(bool succeeded)
+        private void ReportResult(string buildName, bool succeeded)
         {
             string message = succeeded ? "Build complete!" : "Build fail!";
-            _report.AppendLine(message);
+            _report.AppendLine($"[{buildName}] {message}");
         }
 
         private void TryCreateResultDirectory()

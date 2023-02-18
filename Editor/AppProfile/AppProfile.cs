@@ -1,7 +1,7 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using TeamZero.ApplicationProfile.Building;
 using UnityEditor;
 
@@ -16,6 +16,12 @@ namespace TeamZero.ApplicationProfile
         private readonly string[] _scenes;
 
         private readonly IProfileSettings _settings;
+
+        public static AppProfile Create(BuildTarget buildTarget, IProfileSettings settings)
+        {
+            string[] scenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToArray();
+            return new(buildTarget, scenes, settings);
+        }
 
         public static AppProfile Create(BuildTarget buildTarget, string[] scenes, IProfileSettings settings) => 
             new(buildTarget, scenes, settings);
