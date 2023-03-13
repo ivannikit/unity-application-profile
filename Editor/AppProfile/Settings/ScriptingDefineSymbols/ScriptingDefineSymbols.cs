@@ -1,5 +1,6 @@
 #nullable enable
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -13,10 +14,10 @@ namespace TeamZero.ApplicationProfile.Settings
         private readonly RemovedScriptingDefineSymbols _removedSymbols;
 
         public static ScriptingDefineSymbols Create(NamedBuildTarget namedBuildTarget,
-            IEnumerable<string>? addingSymbols, IEnumerable<string>? removedSymbols = null)
+            IEnumerable<string>? addingSymbols = null, IEnumerable<string>? removedSymbols = null)
         {
-            addingSymbols ??= new string[0];
-            removedSymbols ??= new string[0];
+            addingSymbols ??= Array.Empty<string>();
+            removedSymbols ??= Array.Empty<string>();
             
             AddingScriptingDefineSymbols addingSymbolsSettings = new(namedBuildTarget, addingSymbols);
             RemovedScriptingDefineSymbols removedSymbolsSettings = new(namedBuildTarget, removedSymbols);
@@ -38,17 +39,26 @@ namespace TeamZero.ApplicationProfile.Settings
             _removedSymbols.Setup();
         }
 
+        private bool _foldoutActive = true;
         public void DrawGUI()
         {
-            EditorGUILayout.BeginVertical();
-            EditorGUILayout.LabelField("Scripting Define Symbols:");
-            
-            EditorGUI.indentLevel++;
-            _addingSymbols.DrawGUI();
-            _removedSymbols.DrawGUI();
-            EditorGUI.indentLevel--;
-            
-            EditorGUILayout.EndVertical();
+            _foldoutActive = EditorGUILayout.BeginFoldoutHeaderGroup(_foldoutActive, "Scripting Define Symbols");
+            if (_foldoutActive)
+            {
+                EditorGUI.indentLevel++;
+                _addingSymbols.DrawGUI();
+                _removedSymbols.DrawGUI();
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.EndFoldoutHeaderGroup();
         }
+        
+        public bool ContainsAddingSymbols(string value) => _addingSymbols.Contains(value);
+        public void AppendAddingSymbols(string value) => _addingSymbols.Add(value);
+        
+        public bool ContainsRemovedSymbols(string value) => _removedSymbols.Contains(value);
+        public void AppendRemovedSymbols(string value) => _removedSymbols.Add(value);
+        
     }
 }
