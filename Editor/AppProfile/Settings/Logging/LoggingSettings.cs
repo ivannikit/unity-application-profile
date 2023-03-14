@@ -63,7 +63,7 @@ namespace TeamZero.ApplicationProfile.Settings
                 _scriptingDefineSymbols.AppendAddingSymbols(DISABLE_ERROR_LOG);
         }
 
-        private bool _foldoutActive = true;
+        private bool _foldoutActive = false;
         public void DrawGUI()
         {
             _foldoutActive = EditorGUILayout.BeginFoldoutHeaderGroup(_foldoutActive, "Log settings");

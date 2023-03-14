@@ -39,7 +39,7 @@ namespace TeamZero.ApplicationProfile.Settings
             _removedSymbols.Setup();
         }
 
-        private bool _foldoutActive = true;
+        private bool _foldoutActive = false;
         public void DrawGUI()
         {
             _foldoutActive = EditorGUILayout.BeginFoldoutHeaderGroup(_foldoutActive, "Scripting Define Symbols");
